@@ -15,7 +15,11 @@ class HTTPServer
     raise  if running?
     @port = 8000
 
-    @server = WEBrick::HTTPServer.new :Port => port, :Logger => WEBrick::Log.new("/dev/null"), :AccessLog => []
+    @server = WEBrick::HTTPServer.new(
+      :Port => port,
+      :Logger => WEBrick::Log.new("/dev/null"),
+      :AccessLog => [],
+    )
 
     @server.mount_proc '/' do |req, res|
       query_string = req.query_string || ''

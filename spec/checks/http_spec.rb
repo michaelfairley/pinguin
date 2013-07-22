@@ -16,7 +16,7 @@ class Pinguin
       subject(:check) { HTTP.new('url' => url(200)) }
 
       def url(code, params={})
-        query_string = params.empty? ? '' : "?" + params.map{|k,v| "#{k}=#{v}" }.join("&")
+        query_string = "?" + params.map{|k,v| "#{k}=#{v}" }.join("&")
         "http://localhost:#{@server.port}/#{code}#{query_string}"
       end
 

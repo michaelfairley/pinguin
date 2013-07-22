@@ -31,7 +31,9 @@ class Pinguin
           if _response_code_spec =~ response.code
             return Success.new
           else
-            if response.code.start_with?('3') && follow_redirects? && tries < redirect_limit+1
+            if response.code.start_with?('3') &&
+                follow_redirects? &&
+                tries < redirect_limit+1
               uri = URI.parse(response['Location'])
             else
               return Failure.new

@@ -1,7 +1,21 @@
 require "bundler/gem_tasks"
 
-require 'rspec/core/rake_task'
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+rescue LoadError
+  warn "rspec not available"
+end
 
-RSpec::Core::RakeTask.new(:spec)
+begin
+  require 'cane/rake_task'
 
-task :default => :spec
+  desc "Run cane to check quality metrics"
+  Cane::RakeTask.new(:cane) do |cane|
+    cane.canefile = ".cane"
+  end
+rescue LoadError
+  warn "cane not available, quality task not provided."
+end
+
+task :default => [:spec, :cane]

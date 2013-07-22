@@ -1,0 +1,4 @@
+--no-doc
+--color
+--abc-glob {bin,lib}/**/*.rb
+--style-glob {bin,lib}/**/*.rb
