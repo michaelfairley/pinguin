@@ -8,6 +8,10 @@ rescue LoadError
 end
 
 if RUBY_PLATFORM == "java"
+  task :cane do
+    # Do nothing on JRuby
+  end
+else
   begin
     require 'cane/rake_task'
 
@@ -17,10 +21,6 @@ if RUBY_PLATFORM == "java"
     end
   rescue LoadError
     warn "cane not available, quality task not provided."
-  end
-else
-  task :cane do
-    # Do nothing on JRuby
   end
 end
 
