@@ -1,4 +1,4 @@
-module Pinguin
+class Pinguin
   class Success
     def successful?
       true

@@ -2,7 +2,7 @@ require 'pinguin/success'
 require 'pinguin/failure'
 require 'net/http'
 
-module Pinguin
+class Pinguin
   module Checks
     class HTTP
       attr_reader :url

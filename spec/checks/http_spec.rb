@@ -3,7 +3,7 @@ require 'timeout'
 require 'support/http_server'
 require 'pinguin/checks/http'
 
-module Pinguin
+class Pinguin
   module Checks
     describe HTTP do
       it_behaves_like "a check"

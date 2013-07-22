@@ -1,4 +1,4 @@
-module Pinguin
+class Pinguin
   class Failure
     def successful?
       false

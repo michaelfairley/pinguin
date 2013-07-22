@@ -1,5 +1,5 @@
 require "pinguin/version"
 
-module Pinguin
+class Pinguin
   # Your code goes here...
 end
