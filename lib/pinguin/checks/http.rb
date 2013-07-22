@@ -23,26 +23,17 @@ class Pinguin
         freeze
       end
 
-      def check
-        tries = 0
-        uri = URI.parse(url)
+      def check(tries=1, current_url=url)
+        response = _execute(current_url)
 
-        loop do
-          tries += 1
-
-          response = _execute(uri)
-
-          if _response_code_spec =~ response.code
-            return Success.new
-          else
-            if response.code.start_with?('3') &&
-                follow_redirects? &&
-                tries < redirect_limit+1
-              uri = URI.parse(response['Location'])
-            else
-              return Failure.new
-            end
-          end
+        if _response_code_spec =~ response.code
+          return Success.new
+        elsif response.code.start_with?('3') &&
+              follow_redirects? &&
+              tries < redirect_limit+1
+          check(tries+1, response['Location'])
+        else
+          return Failure.new
         end
       rescue Timeout::Error
         return Failure.new
@@ -68,7 +59,8 @@ class Pinguin
         end
       end
 
-      def _execute(uri)
+      def _execute(url)
+        uri = URI.parse(url)
         _http(uri).request(_request(uri))
       end
 
