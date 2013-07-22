@@ -41,11 +41,11 @@ module Pinguin
       end
 
       def _request(uri)
-        request = Net::HTTP::Get.new(uri.request_uri)
+        Net::HTTP::Get.new(uri.request_uri)
       end
 
       def _http(uri)
-        http = Net::HTTP.new(uri.host, uri.port)
+        Net::HTTP.new(uri.host, uri.port)
       end
 
       def _response_code_spec
