@@ -33,7 +33,6 @@ module Pinguin
           else
             if response.code.start_with?('3') && follow_redirects? && tries < redirect_limit+1
               uri = URI.parse(response['Location'])
-              next
             else
               return Failure.new
             end
