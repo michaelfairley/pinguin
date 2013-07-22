@@ -5,8 +5,8 @@ require 'pinguin/checks/http'
 module Pinguin
   module Checks
     describe HTTP do
-      before(:all){ @server = HTTPServer.run }
-      after(:all){ @server.stop }
+      before(:all) { @server = HTTPServer.run }
+      after(:all) { @server.stop }
 
       def url(code, params={})
         query_string = params.empty? ? '' : "?" + params.map{|k,v| "#{k}=#{v}" }.join("&")
