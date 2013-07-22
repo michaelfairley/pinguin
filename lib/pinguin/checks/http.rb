@@ -10,12 +10,16 @@ class Pinguin
       attr_reader :follow_redirects
       alias follow_redirects? follow_redirects
       attr_reader :redirect_limit
+      attr_reader :read_timeout
+      attr_reader :connect_timeout
 
       def initialize(options={})
         @url = options.fetch('url')
         @response_code = options.fetch('response_code', '2xx')
         @follow_redirects = options.fetch('follow_redirects', true)
         @redirect_limit = options.fetch('redirect_limit', 5)
+        @read_timeout = options.fetch('read_timeout', 10)
+        @connect_timeout = options.fetch('connect_timeout', 10)
         freeze
       end
 
@@ -40,6 +44,8 @@ class Pinguin
             end
           end
         end
+      rescue Timeout::Error
+        return Failure.new
       end
 
       def _request(uri)
@@ -47,7 +53,10 @@ class Pinguin
       end
 
       def _http(uri)
-        Net::HTTP.new(uri.host, uri.port)
+        Net::HTTP.new(uri.host, uri.port).tap do |http|
+          http.read_timeout = read_timeout
+          http.open_timeout = connect_timeout
+        end
       end
 
       def _response_code_spec

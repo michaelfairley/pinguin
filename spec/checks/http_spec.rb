@@ -11,7 +11,7 @@ class Pinguin
       before(:all) { @server = HTTPServer.run }
       after(:all) { @server.stop }
 
-      around(:each) {|example| Timeout::timeout(0.5) { example.run } }
+      around(:each) {|example| Timeout::timeout(0.5, SpecTimeoutError) { example.run } }
 
       subject(:check) { HTTP.new('url' => url(200)) }
 
@@ -87,7 +87,28 @@ class Pinguin
       end
 
       describe "matching content"
-      describe "timeouts"
+
+      describe "read_timeout" do
+        it "fails if the response takes longer than the timeout" do
+          HTTP.new('url' => url(200, :sleep => 1), 'read_timeout' => 0.01).check.should_not be_successful
+        end
+
+        it "defaults to 10" do
+          check.read_timeout.should == 10
+        end
+      end
+
+      describe "connect_timeout" do
+        it "fails if the response takes longer than the timeout" do
+          HTTP.new('url' => url(200), 'connect_timeout' => 0.01).check.should be_successful
+          HTTP.new('url' => "http://192.0.2.1/", 'connect_timeout' => 0.01).check.should_not be_successful
+        end
+
+        it "defaults to 10" do
+          check.connect_timeout.should == 10
+        end
+      end
+
       describe "request headers"
       describe "response headers"
       describe "SSL verification"

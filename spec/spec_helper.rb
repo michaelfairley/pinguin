@@ -1,6 +1,7 @@
 require 'pinguin'
 
 require 'support/shared_examples_for_checks'
+require 'support/spec_timeout_error'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

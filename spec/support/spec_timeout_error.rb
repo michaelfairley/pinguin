@@ -1,0 +1,2 @@
+class SpecTimeoutError < StandardError
+end

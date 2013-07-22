@@ -27,6 +27,10 @@ class HTTPServer
 
       response_code = req.path[1..-1]
 
+      if params['sleep']
+        sleep params['sleep'].to_i
+      end
+
       if response_code.start_with?('3')
         to = params.fetch('to', '200')
         times = params.fetch('times', 1).to_i
