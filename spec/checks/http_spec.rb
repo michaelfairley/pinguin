@@ -113,7 +113,17 @@ class Pinguin
       describe "response headers"
       describe "SSL verification"
       describe "HTTP verb"
-      describe "bad hosts"
+
+      describe "bad hosts" do
+        it "fails if the connection is refused" do
+          # find unused port...
+          HTTP.new('url' => "http://localhost:19848/").check.should_not be_successful
+        end
+
+        it "fails if the hostname cannot be resolved" do
+          HTTP.new('url' => "http://invalid.invalid/").check.should_not be_successful
+        end
+      end
     end
   end
 end

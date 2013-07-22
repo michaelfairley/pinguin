@@ -46,6 +46,15 @@ class Pinguin
         end
       rescue Timeout::Error
         return Failure.new
+      rescue Errno::ECONNREFUSED
+        return Failure.new
+      rescue SocketError => e
+        case e.message
+        when "getaddrinfo: nodename nor servname provided, or not known"
+          return Failure.new
+        else
+          raise
+        end
       end
 
       def _request(uri)
