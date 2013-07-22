@@ -8,3 +8,4 @@ SMTP notifier
 Mutant
 Basic auth
 GitHub login
+Config in database
