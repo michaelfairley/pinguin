@@ -50,7 +50,7 @@ class Pinguin
         return Failure.new
       rescue SocketError => e
         case e.message
-        when /\Agetaddrinfo/
+        when /\Agetaddrinfo/, /name or service not known/
           return Failure.new
         else
           raise
