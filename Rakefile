@@ -7,9 +7,9 @@ rescue LoadError
   warn "rspec not available"
 end
 
-if RUBY_PLATFORM == "java"
+if RUBY_PLATFORM == "java" || defined?(::Rubinius)
   task :cane do
-    # Do nothing on JRuby
+    # Do nothing on JRuby and rubinius
   end
 else
   begin
