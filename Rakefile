@@ -7,15 +7,21 @@ rescue LoadError
   warn "rspec not available"
 end
 
-begin
-  require 'cane/rake_task'
+if RUBY_PLATFORM == "java"
+  begin
+    require 'cane/rake_task'
 
-  desc "Run cane to check quality metrics"
-  Cane::RakeTask.new(:cane) do |cane|
-    cane.canefile = ".cane"
+    desc "Run cane to check quality metrics"
+    Cane::RakeTask.new(:cane) do |cane|
+      cane.canefile = ".cane"
+    end
+  rescue LoadError
+    warn "cane not available, quality task not provided."
   end
-rescue LoadError
-  warn "cane not available, quality task not provided."
+else
+  task :cane do
+    # Do nothing on JRuby
+  end
 end
 
 task :default => [:spec, :cane]
