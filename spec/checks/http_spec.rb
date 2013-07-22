@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'timeout'
 require 'support/http_server'
 require 'pinguin/checks/http'
 
@@ -9,6 +10,8 @@ module Pinguin
 
       before(:all) { @server = HTTPServer.run }
       after(:all) { @server.stop }
+
+      around(:each) {|example| Timeout::timeout(0.1) { example.run } }
 
       subject(:check) { HTTP.new('url' => url(200)) }
 
