@@ -13,8 +13,7 @@ module Pinguin
 
       def initialize(options={})
         @url = options.fetch('url')
-        response_code_spec = options.fetch('response_code', '2xx').to_s
-        @response_code = /\A#{response_code_spec.gsub('x', '.')}\z/
+        @response_code = options.fetch('response_code', '2xx')
         @follow_redirects = options.fetch('follow_redirects', true)
         @redirect_limit = options.fetch('redirect_limit', 5)
         freeze
@@ -29,7 +28,7 @@ module Pinguin
 
           response = _http(uri).request(_request(uri))
 
-          if response_code =~ response.code
+          if _response_code_spec =~ response.code
             return Success.new
           else
             if response.code.start_with?('3') && follow_redirects? && tries < redirect_limit+1
@@ -48,6 +47,10 @@ module Pinguin
 
       def _http(uri)
         http = Net::HTTP.new(uri.host, uri.port)
+      end
+
+      def _response_code_spec
+        /\A#{response_code.to_s.gsub('x', '.')}\z/
       end
     end
   end
