@@ -30,7 +30,7 @@ class Pinguin
         loop do
           tries += 1
 
-          response = _http(uri).request(_request(uri))
+          response = _execute(uri)
 
           if _response_code_spec =~ response.code
             return Success.new
@@ -66,6 +66,10 @@ class Pinguin
           http.read_timeout = read_timeout
           http.open_timeout = connect_timeout
         end
+      end
+
+      def _execute(uri)
+        _http(uri).request(_request(uri))
       end
 
       def _response_code_spec
