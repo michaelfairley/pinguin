@@ -6,7 +6,7 @@ require 'pinguin/checks/http'
 class Pinguin
   module Checks
     describe HTTP do
-      it_behaves_like "a check"
+      it_behaves_like "a check", "http"
 
       before(:all) { @server = HTTPServer.run }
       after(:all) { @server.stop }

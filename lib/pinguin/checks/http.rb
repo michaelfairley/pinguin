@@ -1,10 +1,13 @@
 require 'pinguin/success'
 require 'pinguin/failure'
+require 'pinguin/checks'
 require 'net/http'
 
 class Pinguin
   module Checks
     class HTTP
+      Pinguin::Checks.register('http', self)
+
       attr_reader :url
       attr_reader :response_code
       attr_reader :follow_redirects
