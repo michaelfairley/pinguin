@@ -43,12 +43,7 @@ class Pinguin
       rescue Errno::ECONNREFUSED
         return Failure.new
       rescue SocketError => e
-        case e.message
-        when /\Agetaddrinfo/, /[Nn]ame or service not known/
-          return Failure.new
-        else
-          raise
-        end
+        return Failure.new
       end
 
       def _request(uri)
